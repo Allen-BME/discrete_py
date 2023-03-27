@@ -1,5 +1,8 @@
 # ignore shell scripts
 *.sh
 
+# ignore csv
+*.csv
+
 # ignore pycache
 __pycache__/

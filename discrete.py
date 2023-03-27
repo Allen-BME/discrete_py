@@ -16,6 +16,26 @@ class AlgebraicSystem:
         self.__op = np.array(operations)
         self.__num_op = self.__op.shape[0] - 1
         self.__u = np.unique(universe)
+        self.__associative = None
+
+    
+    def is_associative(self):
+        """
+        return 1 if associative, else 0
+        TODO: address memory complexity shape=(n, n, n, 3) not (n, 3)?
+        """
+        if self.__associative is not None:
+            return self.__associative
+        product = cartesian_product(
+                self.__u, self.__u, self.__u)
+        for (a,b,c) in product:
+            if self.operation(
+                    self.operation(a,b), c) != self.operation(
+                            a, self.operation(b,c)):
+                self.__associative = 0
+                return 0
+        self.__associative = 1
+        return 1
 
 
     def operation(self, lop, rop, idx=0):
@@ -52,3 +72,13 @@ class AlgebraicSystem:
         if op not in self.__u:
             raise Exception(
                     f"invalid operation: operand '{op}' not in universe")
+
+
+
+def cartesian_product(*arrays):
+    la = len(arrays)
+    dtype = np.result_type(*arrays)
+    arr = np.empty([len(a) for a in arrays] + [la], dtype=dtype)
+    for i, a in enumerate(np.ix_(*arrays)):
+        arr[...,i] = a
+    return arr.reshape(-1, la)

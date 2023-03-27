@@ -1,13 +1,24 @@
+import time
 import numpy as np
 import discrete
 
-n = 13
+n = 100
 
-Z_13 = range(13)
+Z_n = range(n)
 
-def plus_mod_13(lop: int, rop: int):
-    return (lop + rop) % 13
+def plus_mod_n(lop: int, rop: int):
+    global n
+    return (lop + rop) % n
 
-system = discrete.AlgebraicSystem(Z_13, [plus_mod_13])
+system = discrete.AlgebraicSystem(Z_n, [plus_mod_n])
 
-system.operation_table_to_csv("test.csv", op_name="+_13")
+t1 = time.time()
+print(system.is_associative())
+t2 = time.time()
+print(t2-t1)
+
+t1 = time.time()
+print(system.is_associative())
+t2 = time.time()
+print(t2-t1)
+

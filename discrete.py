@@ -43,7 +43,7 @@ class AlgebraicSystem:
 
     def get_identity(self, op_idx=0):
         """
-        return identity element if there is one, else None
+        return identity element for op[op_idx] if there is one, else None
         """
         if (self.__checked_e) and (self.__e is None):
             return self.__e
@@ -59,6 +59,27 @@ class AlgebraicSystem:
                 self.__e = e
                 return e
                     
+
+    def get_inverse(self, a, op_idx=0):
+        """
+        return a^-1 for a if it exists in op[op_idx], else None.
+
+        Note: I'm not sure if there are systems where a might have more
+        than 1 inverse, so this just returns the first inverse it finds
+        """
+        # first, there needs to be an identity
+        if not (self.__checked_e):
+            self.get_identity()
+        if (self.__e is None):
+            return None  # if no identity, no element has an inverse
+
+        # find inverse
+        for a_inv in self.__u:
+            if self.operation(
+                    a, a_inv, op_idx=op_idx) == self.__e:
+                return a_inv
+        return None
+
 
     def operation(self, lop, rop, idx=0):
         """
@@ -125,6 +146,11 @@ class Z_n:
 
     def is_associative(self):
         return True
+
+
+    def get_inverse(self, a):
+        self.__check_op(a)
+        return (self.n - a) % n
 
 
     def get_identity(self):

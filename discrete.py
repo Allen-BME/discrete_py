@@ -3,6 +3,10 @@ import numpy as np
 
 class AlgebraicSystem:
 
+    """
+    Class to represent an algebraic system.
+    System must have a finite universe.
+    """
 
     def __init__(
             self,
@@ -22,6 +26,14 @@ class AlgebraicSystem:
             raise Exception("invalid operation: operand(s) not in universe")
         self.__check_op_idx(idx)
         return self.__op[idx](lop, rop)
+
+
+    def operation_table_to_csv(
+            self, file_path, op_idx=0, op_name="operation"):
+        """
+        write operation[op_idx] to csv at file_path
+        """
+        
 
 
     def __check_op_idx(self, idx):

@@ -1,4 +1,6 @@
+import time
 import discrete
+import numpy as np
 
 """
 Generate the operation table for Z_n
@@ -14,11 +16,10 @@ def get_input():
     return int(n)
 
 
-print("------------------------------")
-
+# --- user define algebraic system
 n = get_input()
 
-Z_n = range(n)
+Z_n = np.arange(n)
 
 def plus_mod_n(lop: int, rop: int):
     global n
@@ -26,10 +27,6 @@ def plus_mod_n(lop: int, rop: int):
 
 system = discrete.AlgebraicSystem(Z_n, [plus_mod_n])
 
-for a in Z_n:
-    print(f"{a} + {a} = {system.operation(a, a)}")
+# --- print 2a for all a in Z
 
-print("------------------------------")
-
-
-
+np.vectorize(lambda a: print(f"{a} + {a} = {system.operation(a,a)}"))(Z_n)

@@ -1,32 +1,13 @@
-import time
-import discrete
 import numpy as np
+import discrete
 
-"""
-Generate the operation table for Z_n
-where n is chosen by the user
-"""
+n = 13
 
+Z_13 = range(13)
 
-def get_input():
-    n = input("Enter an integer >= 2: ")
-    while ((not n.isnumeric()) or (int(n) < 2)):
-        print("Invalid entry!")
-        n = input("Enter an integer >= 2: ")
-    return int(n)
+def plus_mod_13(lop: int, rop: int):
+    return (lop + rop) % 13
 
+system = discrete.AlgebraicSystem(Z_13, [plus_mod_13])
 
-# --- user define algebraic system
-n = get_input()
-
-Z_n = np.arange(n)
-
-def plus_mod_n(lop: int, rop: int):
-    global n
-    return (lop + rop) % n
-
-system = discrete.AlgebraicSystem(Z_n, [plus_mod_n])
-
-# --- print 2a for all a in Z
-
-np.vectorize(lambda a: print(f"{a} + {a} = {system.operation(a,a)}"))(Z_n)
+system.operation_table_to_csv("test.csv", op_name="+_13")

@@ -33,7 +33,14 @@ class AlgebraicSystem:
         """
         write operation[op_idx] to csv at file_path
         """
-        
+        with open(file_path, "w") as fp:
+            header = ", ".join([op_name] + [f"{i}" for i in self.__u])
+            fp.write(header + "\n")
+
+            for a in self.__u:
+                row = ", ".join([str(a)] 
+                        + [f"{self.operation(a,b)}" for b in self.__u])
+                fp.write(row + "\n")
 
 
     def __check_op_idx(self, idx):

@@ -138,7 +138,20 @@ class Z_n:
         self.__u = np.arange(n)
 
 
+    def elements(self):
+        return self.__u
+
+
     def plus_mod_n(self, lop, rop):
+        self.__check_op(lop)
+        self.__check_op(rop)
+        return (lop + rop) % self.n
+
+    
+    def operation(self, lop, rop):
+        """
+        alias for plus_mod_n (for consistency with AlgebraicStructure)
+        """
         self.__check_op(lop)
         self.__check_op(rop)
         return (lop + rop) % self.n
@@ -155,6 +168,21 @@ class Z_n:
 
     def get_identity(self):
         return 0
+
+
+    def operation_table_to_csv(self, file_path):
+        """
+        write plus_mod_n to csv at file_path
+        """
+        with open(file_path, "w") as fp:
+            header = ", ".join([f"plus_mod_{self.n}"]
+                    + [f"{i}" for i in self.__u])
+            fp.write(header + "\n")
+
+            for a in self.__u:
+                row = ", ".join([str(a)] 
+                        + [f"{self.plus_mod_n(a,b)}" for b in self.__u])
+                fp.write(row + "\n")
 
 
     def __check_op(self, op):

@@ -19,14 +19,11 @@ def get_input():
 # --- user define algebraic system
 n = get_input()
 
-Z_n = np.arange(n)
-
-def plus_mod_n(lop: int, rop: int):
-    global n
-    return (lop + rop) % n
-
-system = discrete.AlgebraicSystem(Z_n, [plus_mod_n])
+Z_n = discrete.Z_n(n)
 
 # --- print 2a for all a in Z
+np.vectorize(lambda a: print(f"{a} + {a} = {Z_n.plus_mod_n(a,a)}"))(
+        Z_n.elements())
 
-np.vectorize(lambda a: print(f"{a} + {a} = {system.operation(a,a)}"))(Z_n)
+# --- write operation table to csv
+Z_n.operation_table_to_csv("test.csv")

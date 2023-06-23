@@ -199,3 +199,20 @@ def cartesian_product(*arrays):
     for i, a in enumerate(np.ix_(*arrays)):
         arr[...,i] = a
     return arr.reshape(-1, la)
+
+
+def ratio_abs(d1: float, d2: float):
+    """
+    returns the "absolute value" / "magnitude" of a ratio.
+    x = d1/d2
+    f(x) = {
+        1/x : x > 1
+        x   : x <= 1
+    }
+    """
+    if (d1 > d2):
+        return d2 / d1
+    else:
+        return d1 / d2
+
+
